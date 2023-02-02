@@ -1,0 +1,43 @@
+#!/bin/python3 
+
+# Project PortScanner 
+# A portscanner than can scan multiple targets { With both domain name and Ip addresses}  
+# A portscanner that can scan multiple ports up to 65,000
+# A port scanner that can take advantage of open ports and inform us about  the softwares running on it for exploit purpose
+# Socket library for internet communication 
+# IP library for Resolving IP and domain names 
+# Multiple input section for inputing targets 
+
+import socket
+from IPy import IP 
+
+def scan(target):
+    converted_ip =  check_ip(target)
+    print('\n'  + ' [- _0 Scanning target ]  ' + str(target))
+    for port in range(1, 6500):
+          scan_port(converted_ip, port)
+       
+
+def check_ip(ip):
+    try:
+        IP(ip)
+        return(ip)
+    except ValueError:
+        return socket.gethostbyname(ip)
+
+def scan_port(ipaddress, port):
+    try:
+        mike = socket.socket()
+        mike.settimeout()
+        mike.connect((ipaddres, port))
+        print('[+] Port ' + str(port)  + ' is open')
+    except:
+        pass
+
+targets = input('[+] Enter target/s to scan:(split multiple targets with ,):')
+if ',' in targets:
+    for ip_add in targets.split(' , '):
+         scan(ip_add.strip(' '))
+else:
+   scan(targets)
+
